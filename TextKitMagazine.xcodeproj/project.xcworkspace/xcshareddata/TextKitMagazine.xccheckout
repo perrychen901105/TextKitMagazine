@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>EAD4DCDD-D44E-4953-A3BE-AC52D5E2354A</string>
+	<key>IDESourceControlProjectName</key>
+	<string>TextKitMagazine</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>EF13037D-3A72-419A-9AFE-51CDDBE1BAB6</key>
+		<string>https://github.com/perrychen901105/TextKitMagazine</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>TextKitMagazine.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>EF13037D-3A72-419A-9AFE-51CDDBE1BAB6</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/perrychen901105/TextKitMagazine</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>EF13037D-3A72-419A-9AFE-51CDDBE1BAB6</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>EF13037D-3A72-419A-9AFE-51CDDBE1BAB6</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TextKitMagazine</string>
+		</dict>
+	</array>
+</dict>
+</plist>

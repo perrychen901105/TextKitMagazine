@@ -7,6 +7,8 @@
 //
 
 #import "BookViewController.h"
+#import "BookView.h"
+#import "AppDelegate.h"
 
 @interface BookViewController ()
 
@@ -15,12 +17,24 @@
 @end
 
 @implementation BookViewController
+{
+    BookView *_bookView;
+}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    self.view.backgroundColor = [UIColor colorWithWhite:0.87f alpha:1.0f];
+    [self setEdgesForExtendedLayout:UIRectEdgeNone];
     
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    _bookView = [[BookView alloc] initWithFrame:self.view.bounds];
+    _bookView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    _bookView.bookMarkup = appDelegate.bookMarkup;
+    
+    [self.view addSubview:_bookView];
 }
 
 #pragma mark - Split view
@@ -37,6 +51,11 @@
     // Called when the view is shown again in the split view, invalidating the button and popover controller.
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     self.masterPopoverController = nil;
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [_bookView buildFrames];
 }
 
 @end

@@ -25,6 +25,7 @@
 		729DD7531783336A0018AF08 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 729DD732178333690018AF08 /* UIKit.framework */; };
 		729DD75B1783336A0018AF08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 729DD7591783336A0018AF08 /* InfoPlist.strings */; };
 		729DD75D1783336A0018AF08 /* TextKitMagazineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 729DD75C1783336A0018AF08 /* TextKitMagazineTests.m */; };
+		C24AD3DC1994AE52001F9775 /* BookView.m in Sources */ = {isa = PBXBuildFile; fileRef = C24AD3DB1994AE52001F9775 /* BookView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,8 @@
 		729DD7581783336A0018AF08 /* TextKitMagazineTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TextKitMagazineTests-Info.plist"; sourceTree = "<group>"; };
 		729DD75A1783336A0018AF08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		729DD75C1783336A0018AF08 /* TextKitMagazineTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextKitMagazineTests.m; sourceTree = "<group>"; };
+		C24AD3DA1994AE52001F9775 /* BookView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookView.h; sourceTree = "<group>"; };
+		C24AD3DB1994AE52001F9775 /* BookView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +137,8 @@
 			children = (
 				729DD73D178333690018AF08 /* AppDelegate.h */,
 				729DD73E178333690018AF08 /* AppDelegate.m */,
+				C24AD3DA1994AE52001F9775 /* BookView.h */,
+				C24AD3DB1994AE52001F9775 /* BookView.m */,
 				729DD740178333690018AF08 /* Main.storyboard */,
 				729DD743178333690018AF08 /* ChaptersViewController.h */,
 				729DD744178333690018AF08 /* ChaptersViewController.m */,
@@ -277,6 +282,7 @@
 				729DD73F178333690018AF08 /* AppDelegate.m in Sources */,
 				729DD745178333690018AF08 /* ChaptersViewController.m in Sources */,
 				729DD73B178333690018AF08 /* main.m in Sources */,
+				C24AD3DC1994AE52001F9775 /* BookView.m in Sources */,
 				729DD748178333690018AF08 /* BookViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
