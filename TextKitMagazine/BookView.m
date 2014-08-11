@@ -43,7 +43,7 @@
     */
 
     // create the text storage
-    NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:self.bookMarkup];
+    NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:self.bookMarkup];
     
     // create the layout manager
     _layoutManager = [[NSLayoutManager alloc] init];
@@ -57,8 +57,22 @@
         CGRect textViewRect = [self frameForViewAtIndex:containerIndex];
         
         // 2
-        CGSize containerSize
+        CGSize containerSize = CGSizeMake(textViewRect.size.width, textViewRect.size.height - 16.0F);
+        NSTextContainer *textContainer = [[NSTextContainer alloc] initWithSize:containerSize];
+        [_layoutManager addTextContainer:textContainer];
+        
+        // 3
+        UITextView *textView = [[UITextView alloc] initWithFrame:textViewRect textContainer:textContainer];
+        [self addSubview:textView];
+        containerIndex++;
+        
+        // 4
+        range = [_layoutManager glyphRangeForTextContainer:textContainer];
     }
+    
+    // 5
+    self.contentSize = CGSizeMake((self.bounds.size.width / 2) * (CGFloat)containerIndex, self.bounds.size.height);
+    self.pagingEnabled = YES;
 }
 
 
