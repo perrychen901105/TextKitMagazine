@@ -26,6 +26,7 @@
 		729DD75B1783336A0018AF08 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 729DD7591783336A0018AF08 /* InfoPlist.strings */; };
 		729DD75D1783336A0018AF08 /* TextKitMagazineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 729DD75C1783336A0018AF08 /* TextKitMagazineTests.m */; };
 		C24AD3DC1994AE52001F9775 /* BookView.m in Sources */ = {isa = PBXBuildFile; fileRef = C24AD3DB1994AE52001F9775 /* BookView.m */; };
+		C25DA2531999F545006924DE /* MarkdownParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C25DA2521999F545006924DE /* MarkdownParser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,8 @@
 		729DD75C1783336A0018AF08 /* TextKitMagazineTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextKitMagazineTests.m; sourceTree = "<group>"; };
 		C24AD3DA1994AE52001F9775 /* BookView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookView.h; sourceTree = "<group>"; };
 		C24AD3DB1994AE52001F9775 /* BookView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookView.m; sourceTree = "<group>"; };
+		C25DA2511999F545006924DE /* MarkdownParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkdownParser.h; sourceTree = "<group>"; };
+		C25DA2521999F545006924DE /* MarkdownParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkdownParser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +142,8 @@
 				729DD73E178333690018AF08 /* AppDelegate.m */,
 				C24AD3DA1994AE52001F9775 /* BookView.h */,
 				C24AD3DB1994AE52001F9775 /* BookView.m */,
+				C25DA2511999F545006924DE /* MarkdownParser.h */,
+				C25DA2521999F545006924DE /* MarkdownParser.m */,
 				729DD740178333690018AF08 /* Main.storyboard */,
 				729DD743178333690018AF08 /* ChaptersViewController.h */,
 				729DD744178333690018AF08 /* ChaptersViewController.m */,
@@ -280,6 +285,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				729DD73F178333690018AF08 /* AppDelegate.m in Sources */,
+				C25DA2531999F545006924DE /* MarkdownParser.m in Sources */,
 				729DD745178333690018AF08 /* ChaptersViewController.m in Sources */,
 				729DD73B178333690018AF08 /* main.m in Sources */,
 				C24AD3DC1994AE52001F9775 /* BookView.m in Sources */,

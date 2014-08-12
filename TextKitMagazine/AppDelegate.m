@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "MarkdownParser.h"
 
 @implementation AppDelegate
 
