@@ -12,5 +12,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic, copy) NSAttributedString *bookMarkup;
+@property (nonatomic, strong) NSArray *chapters;
 
 @end

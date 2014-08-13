@@ -35,6 +35,13 @@
     _bookView.bookMarkup = appDelegate.bookMarkup;
     
     [self.view addSubview:_bookView];
+    NSLog(@"viewDidLoad");
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    NSLog(@"viewDidAppear");
 }
 
 #pragma mark - Split view

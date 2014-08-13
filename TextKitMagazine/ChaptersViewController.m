@@ -8,6 +8,8 @@
 
 #import "ChaptersViewController.h"
 #import "BookViewController.h"
+#import "AppDelegate.h"
+#import "Chapter.h"
 
 @interface ChaptersViewController ()
 
@@ -29,6 +31,11 @@
     self.bookViewController = (BookViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
 
+- (NSArray *)chapters
+{
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    return appDelegate.chapters;
+}
 
 #pragma mark - Table View
 

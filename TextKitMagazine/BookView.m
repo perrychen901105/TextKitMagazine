@@ -18,8 +18,56 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        self.delegate = self;
     }
     return self;
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self buildViewsForCurrentOffset];
+}
+
+- (void)buildViewsForCurrentOffset
+{
+    // 1
+    /**
+     *  Iterate over all instances of NSTextContainer that have been added to the layout manager.
+     */
+    for (NSUInteger index = 0; index < _layoutManager.textContainers.count; index++) {
+        // 2
+        /**
+         *  Obtain the view that renders this container. textViewForContainer: will return nil if a view is not present.
+         */
+        NSTextContainer *textContainer = _layoutManager.textContainers[index];
+        UITextView *textView = [self textViewForContainer:textContainer];
+        
+        // 3
+        /**
+         *  Determine the frame for this view, and whether or not it should be rendered.
+         */
+        CGRect textViewRect = [self frameForViewAtIndex:index];
+        if ([self shouldRenderView:textViewRect]) {
+            // 4
+            /**
+             *  If it should be rendered, check whether it already . If it does, move it.
+             */
+            if (!textView) {
+                NSLog(@"Adding view at index %u", index);
+                UITextView *textView = [[UITextView alloc] initWithFrame:textViewRect textContainer:textContainer];
+                [self addSubview:textView];
+            }
+        } else {
+            // 5
+            /**
+             *  If it should be rendered, check whether it already exists. It it does, do noting; it not ,create it.
+             */
+            if (textView) {
+                NSLog(@"Deleting view at index %u", index);
+                [textView removeFromSuperview];
+            }
+        }
+    }
 }
 
 - (void)buildFrames
@@ -68,12 +116,12 @@
         NSLog(@"the container size is %@",NSStringFromCGSize(containerSize));
         [_layoutManager addTextContainer:textContainer];
         
-        // 3
-        /**
-         *  Create the UITextView for this container.
-         */
-        UITextView *textView = [[UITextView alloc] initWithFrame:textViewRect textContainer:textContainer];
-        [self addSubview:textView];
+//        // 3
+//        /**
+//         *  Create the UITextView for this container.
+//         */
+//        UITextView *textView = [[UITextView alloc] initWithFrame:textViewRect textContainer:textContainer];
+//        [self addSubview:textView];
         containerIndex++;
         
         // 4
@@ -82,6 +130,8 @@
          */
         range = [_layoutManager glyphRangeForTextContainer:textContainer];
     }
+    self.contentOffset = CGPointMake(0, 0);
+    [self buildViewsForCurrentOffset];
     
     // 5
     /**
@@ -89,6 +139,8 @@
      */
     self.contentSize = CGSizeMake((self.bounds.size.width / 2) * (CGFloat)containerIndex, self.bounds.size.height);
     self.pagingEnabled = YES;
+    
+    
 }
 
 - (CGRect)frameForViewAtIndex:(NSUInteger)index
@@ -97,6 +149,41 @@
     textViewRect = CGRectInset(textViewRect, 10.0, 20.0);
     textViewRect = CGRectOffset(textViewRect, (self.bounds.size.width / 2) * (CGFloat)index, 0.0);
     return textViewRect;
+}
+
+// return all the instances of UITextView that have been added as subvivews of BookView.
+- (NSArray *)textSubViews
+{
+    NSMutableArray *views = [NSMutableArray new];
+    for (UIView *subview in self.subviews) {
+        if ([subview class] == [UITextView class]) {
+            [views addObject:subview];
+        }
+    }
+    return views;
+}
+
+//return owning UITextView for the NSTextContainer instance passed in, if one exists.
+- (UITextView *)textViewForContainer:(NSTextContainer *)textContainer
+{
+    for (UITextView *textView in [self textSubViews]) {
+        if (textView.textContainer == textContainer) {
+            return textView;
+        }
+    }
+    return nil;
+}
+
+// This method determines whether or not a view with the given frame should be rendered, based on the current content offset of the scroll view.
+- (BOOL)shouldRenderView:(CGRect)viewFrame
+{
+    if (viewFrame.origin.x + viewFrame.size.width < (self.contentOffset.x - self.bounds.size.width)) {
+        return NO;
+    }
+    if (viewFrame.origin.x > (self.contentOffset.x + self.bounds.size.width * 2.0)) {
+        return NO;
+    }
+    return YES;
 }
 
 /*

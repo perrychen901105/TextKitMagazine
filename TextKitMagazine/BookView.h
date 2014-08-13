@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BookView : UIScrollView
+@interface BookView : UIScrollView<UIScrollViewDelegate>
 
 @property (nonatomic, copy) NSAttributedString *bookMarkup;
 

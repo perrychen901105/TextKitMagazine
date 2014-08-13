@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "MarkdownParser.h"
+#import "Chapter.h"
 
 @implementation AppDelegate
 
@@ -18,6 +19,7 @@
 //    self.bookMarkup = [[NSAttributedString alloc] initWithString:text];
     MarkdownParser *parser = [[MarkdownParser alloc] init];
     self.bookMarkup = [parser parseMarkdownFile:path];
+    self.chapters = [self locateChapters:self.bookMarkup.string];
     // Override point for customization after application launch.
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
@@ -50,6 +52,22 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (NSMutableArray *)locateChapters:(NSString *)markdown
+{
+    NSMutableArray *chapters = [NSMutableArray new];
+    [markdown enumerateSubstringsInRange:NSMakeRange(0, markdown.length)
+                                 options:NSStringEnumerationByLines
+                              usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+                                  if (substring.length > 7 && [[substring substringToIndex:7] isEqualToString:@"CHAPTER"]) {
+                                      Chapter *chapter = [Chapter new];
+                                      chapter.title = substring;
+                                      chapter.location = substringRange.location;
+                                      [chapters addObject:chapter];
+                                  }
+                              }];
+    return chapters;
 }
 
 @end
