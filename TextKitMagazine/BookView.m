@@ -11,6 +11,7 @@
 @implementation BookView
 {
     NSLayoutManager *_layoutManager;
+    NSRange _wordCharacterRange;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -19,13 +20,91 @@
     if (self) {
         // Initialization code
         self.delegate = self;
+        UIGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                             action:@selector(handleTap:)];
+        [self addGestureRecognizer:recognizer];
     }
     return self;
+}
+
+- (void)handleTap:(UITapGestureRecognizer *)tapRecognizer
+{
+    NSTextStorage *textStorage = _layoutManager.textStorage;
+    
+    // 1
+    /**
+     *  First, locate the tapped instance of UITextView by iterating over all the subviews belonging to the view and check whether its frame contains the point of the tap.
+     */
+    CGPoint tappedLocation = [tapRecognizer locationInView:self];
+    UITextView *tappedTextView = nil;
+    for (UITextView *textView in [self textSubViews]) {
+        if (CGRectContainsPoint(textView.frame, tappedLocation)) {
+            tappedTextView = textView;
+            break;
+        }
+    }
+    if (!tappedTextView) {
+        return;
+    }
+    
+    // 2
+    /**
+     *  Next, convert the tap point into the coordinate system of the respective view and subtract the text container's margin accordingly.
+     */
+    CGPoint subViewLocation = [tapRecognizer locationInView:tappedTextView];
+    subViewLocation.y -= 8.0;
+    
+    // 3
+    /**
+     *  Determine the index of the tapped glyph using NSLayoutManager and convert the glyph index into a character index. This allows you to look up the corresponding character in the text storage.
+     */
+    NSUInteger glyphIndex = [_layoutManager glyphIndexForPoint:subViewLocation
+                                               inTextContainer:tappedTextView.textContainer];
+    NSUInteger charIndex = [_layoutManager characterIndexForGlyphAtIndex:glyphIndex];
+    
+    // 4
+    /**
+     *  Determine whether the tapped character is a letter; it's a bit troublesome to perform dictionary lookups on spaces, numbers, and attachments.
+     */
+    if (![[NSCharacterSet letterCharacterSet] characterIsMember:[textStorage.string characterAtIndex:charIndex]]) {
+        return;
+    }
+    
+    // 5
+    /**
+     *  Expand the character index into a word range.
+     */
+    _wordCharacterRange = [self wordThatContainsCharacter:charIndex
+                                                   string:textStorage.string];
+    
+    // 6
+    /**
+     *  Finally apply a text color attribute to the word range.
+     */
+    [textStorage addAttribute:NSForegroundColorAttributeName value:[UIColor redColor]
+                        range:_wordCharacterRange];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [self buildViewsForCurrentOffset];
+}
+
+- (void)navigateToCharacterLocation:(NSUInteger)location
+{
+    CGFloat offset = 0.0f;
+    for (NSTextContainer *container in _layoutManager.textContainers) {
+        NSRange glyphRange = [_layoutManager glyphRangeForTextContainer:container];
+        NSRange charRange = [_layoutManager characterRangeForGlyphRange:glyphRange
+                                                       actualGlyphRange:nil];
+        
+        if (location >= charRange.location && location < NSMaxRange(charRange)) {
+            self.contentOffset = CGPointMake(offset, 0);
+            [self buildViewsForCurrentOffset];
+            return;
+        }
+        offset += self.bounds.size.width / 2.0f;
+    }
 }
 
 - (void)buildViewsForCurrentOffset
@@ -34,6 +113,7 @@
     /**
      *  Iterate over all instances of NSTextContainer that have been added to the layout manager.
      */
+    NSLog(@"the text containers is %d",_layoutManager.textContainers.count);
     for (NSUInteger index = 0; index < _layoutManager.textContainers.count; index++) {
         // 2
         /**
@@ -139,8 +219,6 @@
      */
     self.contentSize = CGSizeMake((self.bounds.size.width / 2) * (CGFloat)containerIndex, self.bounds.size.height);
     self.pagingEnabled = YES;
-    
-    
 }
 
 - (CGRect)frameForViewAtIndex:(NSUInteger)index
@@ -195,6 +273,17 @@
 }
 */
 
-
+- (NSRange)wordThatContainsCharacter:(NSUInteger)charIndex string:(NSString *)string
+{
+    NSUInteger startLocation = charIndex;
+    while (startLocation > 0 && [[NSCharacterSet letterCharacterSet] characterIsMember:[string characterAtIndex:startLocation-1]]) {
+        startLocation--;
+    }
+    NSUInteger endLocation = charIndex;
+    while (endLocation < string.length && [[NSCharacterSet letterCharacterSet] characterIsMember:[string characterAtIndex:endLocation+1]]) {
+        endLocation ++;
+    }
+    return NSMakeRange(startLocation, endLocation-startLocation+1);
+}
 
 @end

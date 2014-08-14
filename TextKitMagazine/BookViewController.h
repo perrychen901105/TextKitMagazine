@@ -10,4 +10,6 @@
 
 @interface BookViewController : UIViewController <UISplitViewControllerDelegate>
 
+- (void)navigateToCharacterLocation:(NSUInteger)location;
+
 @end

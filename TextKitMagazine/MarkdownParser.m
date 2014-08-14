@@ -110,6 +110,39 @@
         [parsedOutput appendAttributedString:attributedText];
         [parsedOutput appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n"]];
     }
+    
+    // 1. Locate images
+    /**
+     *  A regular expression is used to locate all the markdown images in the book text. You'll look at this regular expression in detail shortly.
+     */
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\!\\[.*\\]\\((.*)\\)" options:0 error:nil];
+    NSArray *matches = [regex matchesInString:[parsedOutput string]
+                                      options:0
+                                        range:NSMakeRange(0, parsedOutput.length)];
+    
+    // 2. Iterate over matches in reverse
+    /**
+     *  A for loop is used to iterate over the matches in reverse. This might seem a bit odd, but where is a perfectly good reason for this. Since each image tag is replaced with an attachment, the overall string length will decrease. Enumerating in reverse avoids having to recalculate the ranges returned by the regular expression.
+     */
+    for (NSTextCheckingResult *result in [matches reverseObjectEnumerator]) {
+        NSRange matchRange = [result range];
+        NSRange captureRange = [result rangeAtIndex:1];
+        
+        // 3. Create an attachment for each image
+        /**
+         *  An NSTextAttachment instance is created for each image.
+         */
+        NSTextAttachment *textAttachment = [NSTextAttachment new];
+        textAttachment.image = [UIImage imageNamed:[parsedOutput.string substringWithRange:captureRange]];
+        
+        // 4. Replace the image markup with the attachment
+        /**
+         *  The image markdown is replaced with an attributed string based on this attachment
+         */
+        NSAttributedString *replacementString = [NSAttributedString attributedStringWithAttachment:textAttachment];
+        [parsedOutput replaceCharactersInRange:matchRange withAttributedString:replacementString];
+    }
+    
     return parsedOutput;
 }
 

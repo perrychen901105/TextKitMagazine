@@ -19,7 +19,7 @@
 
 - (void)awakeFromNib
 {
-    self.clearsSelectionOnViewWillAppear = NO;
+    self.clearsSelectionOnViewWillAppear = YES;
     self.preferredContentSize = CGSizeMake(320.0, 600.0);
     [super awakeFromNib];
 }
@@ -46,19 +46,22 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return [self chapters].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-
+    Chapter *chapter = [self chapters][indexPath.row];
+    cell.textLabel.text = chapter.title;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    Chapter *chapter = [self chapters][indexPath.row];
+    NSLog(@"chapter location is %d",chapter.location);
+    [self.bookViewController navigateToCharacterLocation:chapter.location];
 }
 
 @end

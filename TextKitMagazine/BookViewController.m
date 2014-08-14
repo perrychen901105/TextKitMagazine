@@ -65,4 +65,10 @@
     [_bookView buildFrames];
 }
 
+- (void)navigateToCharacterLocation:(NSUInteger)location
+{
+    [self.masterPopoverController dismissPopoverAnimated:YES];
+    [_bookView navigateToCharacterLocation:location];
+}
+
 @end

@@ -13,5 +13,6 @@
 @property (nonatomic, copy) NSAttributedString *bookMarkup;
 
 - (void)buildFrames;
+- (void)navigateToCharacterLocation:(NSUInteger)location;
 
 @end
