@@ -74,6 +74,7 @@
     /**
      *  Expand the character index into a word range.
      */
+    
     _wordCharacterRange = [self wordThatContainsCharacter:charIndex
                                                    string:textStorage.string];
     
@@ -83,6 +84,43 @@
      */
     [textStorage addAttribute:NSForegroundColorAttributeName value:[UIColor redColor]
                         range:_wordCharacterRange];
+    
+    // 1
+    /**
+     *  Obtains the relevant line fragment for the tapped glyph.
+     */
+    CGRect rect = [_layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex
+                                                   effectiveRange:nil];
+    
+    // 2
+    /**
+     *  Obtains the location of the first and last glyphs of the tapped word.
+     */
+    NSRange wordGlyphRange = [_layoutManager glyphRangeForCharacterRange:_wordCharacterRange
+                                                    actualCharacterRange:nil];
+    CGPoint startLocation = [_layoutManager locationForGlyphAtIndex:wordGlyphRange.location];
+    CGPoint endLocation = [_layoutManager locationForGlyphAtIndex:NSMaxRange(wordGlyphRange)];
+    
+    // 3
+    /**
+     *  Calculates the rectangle of the selected word by using the height of the line fragment and the position of the start and end glyphs in the word.
+     */
+    CGRect wordRect = CGRectMake(startLocation.x, rect.origin.y, endLocation.x - startLocation.x, rect.size.height);
+    
+    // 4
+    /**
+     *  Converts the resulting rectangle into the coordinate system of the BookView instance.
+     */
+    wordRect = CGRectOffset(wordRect, tappedTextView.frame.origin.x, tappedTextView.frame.origin.y);
+    
+    // 5
+    /**
+     *  Adjusts the rectangle by the margin offset, and invokes the newly added delegate method.
+     */
+    wordRect = CGRectOffset(wordRect, 0.0, 8.0);
+    
+    NSString *word = [textStorage.string substringWithRange:_wordCharacterRange];
+    [self.bookViewDelegate bookView:self didHighlightWord:word inRect:wordRect];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -113,7 +151,7 @@
     /**
      *  Iterate over all instances of NSTextContainer that have been added to the layout manager.
      */
-    NSLog(@"the text containers is %d",_layoutManager.textContainers.count);
+//    NSLog(@"the text containers is %d",_layoutManager.textContainers.count);
     for (NSUInteger index = 0; index < _layoutManager.textContainers.count; index++) {
         // 2
         /**
@@ -133,7 +171,7 @@
              *  If it should be rendered, check whether it already . If it does, move it.
              */
             if (!textView) {
-                NSLog(@"Adding view at index %u", index);
+//                NSLog(@"Adding view at index %u", index);
                 UITextView *textView = [[UITextView alloc] initWithFrame:textViewRect textContainer:textContainer];
                 [self addSubview:textView];
             }
@@ -143,7 +181,7 @@
              *  If it should be rendered, check whether it already exists. It it does, do noting; it not ,create it.
              */
             if (textView) {
-                NSLog(@"Deleting view at index %u", index);
+//                NSLog(@"Deleting view at index %u", index);
                 [textView removeFromSuperview];
             }
         }
@@ -186,14 +224,14 @@
          *  Create a frame for the view at this index; you'll implement this method shortly.Remember, you are creating all of the text views necessary to display the entire book at once, and laying out the text views one at a time from left to right.
          */
         CGRect textViewRect = [self frameForViewAtIndex:containerIndex];
-        NSLog(@"the text view rect frame is %@",NSStringFromCGRect(textViewRect));
+//        NSLog(@"the text view rect frame is %@",NSStringFromCGRect(textViewRect));
         // 2
         /**
          *  Create an instance of NSTextContainer with a size based on the frame returned from frameForViewAtIndex:. Note the 16.0f magic number; you decrease the height by this amount as UITextView adds an 8.0f margin above and below the container.
          */
         CGSize containerSize = CGSizeMake(textViewRect.size.width, textViewRect.size.height - 16.0f);
         NSTextContainer *textContainer = [[NSTextContainer alloc] initWithSize:containerSize];
-        NSLog(@"the container size is %@",NSStringFromCGSize(containerSize));
+//        NSLog(@"the container size is %@",NSStringFromCGSize(containerSize));
         [_layoutManager addTextContainer:textContainer];
         
 //        // 3
@@ -284,6 +322,11 @@
         endLocation ++;
     }
     return NSMakeRange(startLocation, endLocation-startLocation+1);
+}
+
+- (void)removeWordHighlight
+{
+    [_layoutManager.textStorage removeAttribute:NSForegroundColorAttributeName range:_wordCharacterRange];
 }
 
 @end

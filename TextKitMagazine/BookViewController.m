@@ -9,8 +9,9 @@
 #import "BookViewController.h"
 #import "BookView.h"
 #import "AppDelegate.h"
+#import "BookViewDelegate.h"
 
-@interface BookViewController ()
+@interface BookViewController () <BookViewDelegate, UIPopoverControllerDelegate>
 
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 
@@ -19,6 +20,7 @@
 @implementation BookViewController
 {
     BookView *_bookView;
+    UIPopoverController *_popover;
 }
 
 - (void)viewDidLoad
@@ -35,13 +37,12 @@
     _bookView.bookMarkup = appDelegate.bookMarkup;
     
     [self.view addSubview:_bookView];
-    NSLog(@"viewDidLoad");
+    _bookView.bookViewDelegate = self;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    NSLog(@"viewDidAppear");
 }
 
 #pragma mark - Split view
@@ -69,6 +70,15 @@
 {
     [self.masterPopoverController dismissPopoverAnimated:YES];
     [_bookView navigateToCharacterLocation:location];
+}
+
+- (void)bookView:(BookView *)bookView didHighlightWord:(NSString *)word inRect:(CGRect)rect
+{
+    UIReferenceLibraryViewController *dictionaryVC = [[UIReferenceLibraryViewController alloc] initWithTerm:word];
+    _popover.contentViewController = dictionaryVC;
+    _popover = [[UIPopoverController alloc] initWithContentViewController:dictionaryVC];
+    _popover.delegate = self;
+    [_popover presentPopoverFromRect:rect inView:_bookView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 @end

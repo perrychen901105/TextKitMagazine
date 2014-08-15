@@ -65,6 +65,7 @@
 		729DD7581783336A0018AF08 /* TextKitMagazineTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TextKitMagazineTests-Info.plist"; sourceTree = "<group>"; };
 		729DD75A1783336A0018AF08 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		729DD75C1783336A0018AF08 /* TextKitMagazineTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextKitMagazineTests.m; sourceTree = "<group>"; };
+		C24AA358199DA5A1004476CF /* BookViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BookViewDelegate.h; sourceTree = "<group>"; };
 		C24AD3DA1994AE52001F9775 /* BookView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookView.h; sourceTree = "<group>"; };
 		C24AD3DB1994AE52001F9775 /* BookView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookView.m; sourceTree = "<group>"; };
 		C25DA2511999F545006924DE /* MarkdownParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkdownParser.h; sourceTree = "<group>"; };
@@ -143,6 +144,7 @@
 			children = (
 				729DD73D178333690018AF08 /* AppDelegate.h */,
 				729DD73E178333690018AF08 /* AppDelegate.m */,
+				C24AA358199DA5A1004476CF /* BookViewDelegate.h */,
 				C24AD3DA1994AE52001F9775 /* BookView.h */,
 				C24AD3DB1994AE52001F9775 /* BookView.m */,
 				C2CB0355199B63EA00DBAC85 /* Chapter.h */,
